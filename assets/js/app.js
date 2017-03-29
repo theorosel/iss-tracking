@@ -12,7 +12,14 @@ function App(element) {
     this.$el.markers   = null;
 
     // Earth data
-    this.options = {atmosphere: false, center: [0, 0], zoom: 2.5, zooming:false, unconstrainedRotation:true, /*sky:true*/};
+    this.options = {
+        atmosphere: false,
+        center: [0, 0],
+        zoom: 2.5,
+        zooming:false,
+        unconstrainedRotation:true,
+        sky:true};
+        
     this.earth = new WE.map('earth', this.options);
 
     // ISS data
@@ -20,11 +27,10 @@ function App(element) {
     this.ship_path = [];
     this.markers   = [];
 
-    console.log(this.markers);
+    // Tweets
+    this.latest_tweets = [];
 
     var self = this;
-
-
 
 
     /*
@@ -46,28 +52,93 @@ function App(element) {
 
     this.init = function() {
         this.get_latest_tweets();
+
+        setTimeout(function() {
+
+            for (var i = 0; i < self.latest_tweets.length; i++) {
+
+                self.get_twitter_pos(self.latest_tweets[i].picture);
+
+                self.add_mark(i, i);
+
+                $popup = document.createElement('div');
+                $popup.classList.add('marker-popup');
+
+                $image = document.createElement('img');
+                $image.classList.add('popup-image');
+                $image.setAttribute('src', self.latest_tweets[i].picture);
+
+                $text = document.createElement('p');
+                $text.classList.add('popup-text');
+                $text.innerText = self.latest_tweets[i].tweet_text;
+
+                $popup.appendChild($image);
+                $popup.appendChild($text);
+                console.log(self.latest_tweets[i].tweet_text);
+
+
+                // $popup.appendChild(self.latest_tweets[i].id);
+
+                self.markers[i].element.appendChild($popup);
+
+                self.markers[i].element.addEventListener('mouseover', function() {
+
+                    this.lastChild.style.opacity = 1;
+                    this.lastChild.style.transform = 'scale(1)';
+                })
+
+                self.markers[i].element.addEventListener('mouseleave', function() {
+
+                    this.lastChild.style.opacity = 0;
+                    this.lastChild.style.transform = 'scale(0)';
+                })
+            }
+
+            // for (var j = 0; j < self.markers.length; j++) {
+            //
+            //     $popup = document.createElement('div');
+            //     $popup.classList.add('marker-popup');
+            //
+            //     self.markers[j].element.appendChild($popup);
+            //
+            //     self.markers[j].element.addEventListener('mouseover', function() {
+            //
+            //         this.lastChild.style.opacity = 1;
+            //         this.lastChild.style.transform = 'scale(1)';
+            //     })
+            //
+            //     self.markers[j].element.addEventListener('mouseleave', function() {
+            //
+            //         this.lastChild.style.opacity = 0;
+            //         this.lastChild.style.transform = 'scale(0)';
+            //     })
+            // }
+        }, 2000);
+
+
+
         // this.current_pos();
         // this.get_iss_data();
-        this.add_mark(-50, -50);
-        this.add_mark(-30, -30);
+        // this.add_mark(-50, -50);
+        // this.add_mark(-30, -30);
 
-        for (var i = 0; i < this.markers.length; i++) {
-            console.log(this.markers[i]);
-            $popup = document.createElement('div');
-            $popup.classList.add('marker-popup');
-
-            this.markers[i].element.appendChild($popup);
-
-            this.markers[i].element.addEventListener('mouseover', function() {
-                this.lastChild.style.opacity = 1;
-                this.lastChild.style.transform = 'scale(1)';
-            })
-
-            this.markers[i].element.addEventListener('mouseleave', function() {
-                this.lastChild.style.opacity = 0;
-                this.lastChild.style.transform = 'scale(0)';
-            })
-        }
+        // for (var i = 0; i < this.markers.length; i++) {
+        //     console.log(this.markers[i]);
+        //     $popup = document.createElement('div');
+        //     $popup.classList.add('marker-popup');
+        //
+        //     this.markers[i].element.appendChild($popup);
+        //
+        //     this.markers[i].element.addEventListener('mouseover', function() {
+        //         this.lastChild.style.opacity = 1;
+        //         this.lastChild.style.transform = 'scale(1)';
+        //     })
+        //
+        //     this.markers[i].element.addEventListener('mouseleave', function() {
+        //         this.lastChild.style.opacity = 0;
+        //         this.lastChild.style.transform = 'scale(0)';
+        //     })
+        // }
 
         console.log(this.markers);
     }
@@ -85,13 +156,21 @@ function App(element) {
 
             if (this.readyState == 4 && this.status == 200) {
 
-                result = JSON.parse(this.responseText);
-                console.log(result);
+                var results = JSON.parse(this.responseText);
+                console.log(results);
+
+                for (var i = 0; i < results.length; i++) {
+                    self.latest_tweets.push(results[i]);
+                }
             }
         };
 
         xhttp.open("GET", "/api/twitter", true);
         xhttp.send();
+    }
+
+    this.get_twitter_pos = function() {
+
     }
 
 
