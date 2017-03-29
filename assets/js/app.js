@@ -38,12 +38,14 @@ function App(element) {
         self.toggle_team();
     });
 
-    // setInterval(function(){
-    //     self.get_iss_data();
-    // }, 3000);
+
+    setInterval(function(){
+        self.get_iss_data();
+    }, 3000);
 
 
     this.init = function() {
+        this.get_latest_tweets();
         // this.current_pos();
         // this.get_iss_data();
         this.add_mark(-50, -50);
@@ -71,9 +73,27 @@ function App(element) {
     }
 
 
+    /*
+     * get_latest_tweets()
+     * Called when the DOM is fully loaded
+     * Get X latests tweets
+     */
     this.get_latest_tweets = function() {
-        
+        var xhttp  = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState == 4 && this.status == 200) {
+
+                result = JSON.parse(this.responseText);
+                console.log(result);
+            }
+        };
+
+        xhttp.open("GET", "/api/twitter", true);
+        xhttp.send();
     }
+
 
     /*
      * initialize()
