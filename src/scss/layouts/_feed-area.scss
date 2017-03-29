@@ -1,0 +1,13 @@
+.feed-area {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: green;
+    transform: translateX(-100%);
+    transition: $ease-cubic;
+    will-change: transform;
+    z-index: $zindex-2;
+}

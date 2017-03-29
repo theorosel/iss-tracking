@@ -1,0 +1,95 @@
+body,
+html {
+    height: 100%;
+    width: 100%;
+    background: grey;
+}
+
+body {
+    font-family: 'Ailerons', Arial, sans-serif;
+}
+
+.app {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: green;
+    transition: $ease-cubic;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+
+/*
+ * feed & team mode app
+ */
+
+.app.feed-mode {
+
+    .feed-area {
+        transform: translateX(0%);
+        transition: $ease-cubic;
+    }
+
+    .earth-area {
+        transform: translateX(25%);
+        transition: $ease-cubic;
+
+        .iss-overflown {
+            transform: translateX(130%);
+            transition: $ease-cubic;
+        }
+
+        .iss-speed {
+            transform: translateX(-170%);
+            transition: $ease-cubic;
+        }
+
+        .iss-altitude {
+            transform: translateX(-200%);
+            transition: $ease-cubic;
+        }
+    }
+}
+
+
+.app.team-mode {
+
+    .team-area {
+        transform: translateX(0%);
+        transition: $ease-cubic;
+    }
+
+    .earth-area {
+        transform: translateX(-25%);
+        transition: $ease-cubic;
+
+        .iss-overflown {
+            transform: translateX(130%);
+            transition: $ease-cubic;
+        }
+
+        .iss-speed {
+            transform: translateX(-160%);
+            transition: $ease-cubic;
+        }
+
+        .iss-altitude {
+            transform: translateX(-195%);
+            transition: $ease-cubic;
+        }
+    }
+
+    .feed-area {
+        transform: translateX(-110%);
+        transition: $ease-cubic;
+    }
+}

@@ -1,0 +1,71 @@
+.link {
+    position: absolute;
+    transition: $ease-cubic;
+    z-index: $zindex-3;
+
+    &:hover .link-text {
+        text-shadow: $text_shadow;
+    }
+
+    &:hover .link-tick {
+        box-shadow: $marker_shadow;
+    }
+}
+
+.link-feed {
+    top: 50%;
+    right: -76px;
+    transform-origin: 0% 0%;
+    transform: rotate(-90deg) translateY(100px) translateX(-10px);
+    will-change:transform;
+    transition: $ease-cubic;
+}
+
+.link-team {
+    top: 50%;
+    left: -8px;
+    transform-origin: 0 0;
+    transform: rotate(90deg) translateY(100px) translateX(-50px);
+    will-change:transform;
+    transition: $ease-cubic;
+}
+
+.link-text {
+    font-size: 28px;
+    color: $white;
+}
+
+.link-tick {
+    display: inline-block;
+    width: 100%;
+    height: 4px;
+    position: absolute;
+    top: 150%;
+    transform: translateY(0);
+    transition: $ease-cubic;
+    will-change: transform;
+    background-color: $white;
+}
+
+
+.link-feed.active {
+    top: 50%;
+    transform-origin: 0 0;
+    transform: rotate(-90deg) translateY(0px) translateX(0px);
+
+    .link-tick {
+        transform: translateY(-1310%);
+        transition: $ease-cubic;
+    }
+}
+
+.link-team.active {
+    top: 50%;
+    transform-origin: 0 0;
+    transform: rotate(90deg) translateY(0px) translateX(-50px);
+
+    .link-tick {
+        transform: translateY(-1310%);
+        transition: $ease-cubic;
+    }
+}

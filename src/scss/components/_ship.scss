@@ -1,0 +1,21 @@
+.we-pm-icon-ship {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-color: $white;
+    margin-left: 0;
+    margin-top: 0;
+    box-shadow: $marker_shadow;
+    transform-origin: 50% 0%;
+    transform: rotate(45deg);
+
+    &:after {
+        content: "";
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        border: 1px solid $white;
+        transform: translate(-20%, -20%) ;
+        box-shadow: $marker_shadow;
+    }
+}

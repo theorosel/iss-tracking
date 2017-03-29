@@ -1,0 +1,22 @@
+.we-pm-icon-marker {
+    width: 8px;
+    height: 8px;
+    background-color: $white;
+    margin-left: 0;
+    margin-top: 0;
+    border-radius: 50%;
+    box-shadow: $marker_shadow;
+    cursor: pointer;
+    z-index: $zindex-3;
+
+    &:after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid $white;
+        transform: translate(-30%, -30%);
+        box-shadow: $marker_shadow;
+    }
+}

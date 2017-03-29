@@ -1,0 +1,15 @@
+.marker-popup {
+    position: absolute;
+    bottom: 160%;
+    left: 160%;
+    width: 180px;
+    height: 100px;
+    background-color: rgba(0,0,0, 0.8);
+    border: solid 1px $white;
+    box-shadow: $marker_shadow;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: 0 100%;
+    transition: $ease-cubic;
+    z-index: $zindex-4;
+}
