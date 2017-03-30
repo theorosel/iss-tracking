@@ -34,6 +34,7 @@ function get_astronautes() {
 
                 var result = JSON.parse(req.response);
                 resolve(result);
+                console.log(result);
 
             }
             else {
@@ -49,7 +50,6 @@ function get_astronautes() {
     });
 }
 
-// console.log(result);
 
 
 document.addEventListener('DOMContentLoaded', function(event) {
@@ -85,8 +85,42 @@ document.addEventListener('DOMContentLoaded', function(event) {
             extract = excerpt(extract);
             $extract.innerText = extract;
 
+            // Astronaut age
+            $age = document.createElement('div');
+            $age.className = 'Age';
+
+            $age_text = document.createElement('p');
+            $age_text.className = 'age-text';
+            $age_text.innerText = 'age : ';
+
+            $age_data = document.createElement('p');
+            $age_data.className = 'age-data';
+            $age_data.innerText = response[i].age;
+
+            $age.appendChild($age_text);
+            $age.appendChild($age_data);
+
+            // Astronaut age
+            $nationality = document.createElement('div');
+            $nationality.className = 'Nationality';
+
+            $nationality_text = document.createElement('p');
+            $nationality_text.className = 'nationality-text';
+            $nationality_text.innerText = 'nationality : ';
+
+            $nationality_data = document.createElement('p');
+            $nationality_data.className = 'nationality-data';
+            $nationality_data.innerText = response[i].nationality;
+
+            $nationality.appendChild($nationality_text);
+            $nationality.appendChild($nationality_data);
+
+
+            // Set to the parent
             $content.appendChild($name);
             $content.appendChild($extract);
+            $content.appendChild($nationality);
+            $content.appendChild($age);
             parent.appendChild($content);
         }
 

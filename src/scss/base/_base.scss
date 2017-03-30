@@ -100,6 +100,11 @@ a {
             transform: translateX(-195%);
             transition: $ease-cubic;
         }
+
+        .live {
+            transform: translateX(130%) scale(0.6);
+            transition: $ease-cubic;
+        }
     }
 
     .feed-area {
