@@ -1,22 +1,615 @@
+var div = 360 / 6;
+var radius = 280;
+var parent = document.querySelector('.team-area');
+var offsetToParentCenter = parseInt(circle_div.offsetWidth / 2);  //assumes parent is square
+var offsetToChildCenter = 70;
+var totalOffset = offsetToParentCenter - offsetToChildCenter;
+
 
 function get_astronautes() {
-    var xhttp  = new XMLHttpRequest();
+    return new Promise(function(resolve, reject) {
+        var req = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
+        req.open('GET', "/api/wikipedia");
 
-        if (this.readyState == 4 && this.status == 200) {
+        req.onload = function() {
+            if (req.status == 200) {
 
-            var result = JSON.parse(this.responseText);
-            console.log(result);
-        }
-    };
+                var result = JSON.parse(req.response);
+                resolve(result);
 
-    xhttp.open("GET", "/api/wikipedia", true);
-    xhttp.send();
+            }
+            else {
+                reject(Error(req.statusText));
+            }
+        };
+
+        req.onerror = function() {
+            reject(Error("Network Error"));
+        };
+
+        req.send();
+    });
 }
+
+// console.log(result);
 
 
 document.addEventListener('DOMContentLoaded', function(event) {
 
-    get_astronautes();
+    get_astronautes().then(function(response) {
+
+        for (var i = 0; i <= response.length - 1; ++i) {
+            var childdiv = document.createElement('div');
+            childdiv.className = 'div_circle circle' + i;
+            childdiv.style.position = 'absolute';
+            childdiv.style.backgroundImage = "url('" + response[i].image+ "')";
+
+            var y = Math.sin((div * i) * (Math.PI / 180)) * radius;
+            var x = Math.cos((div * i) * (Math.PI / 180)) * radius;
+            childdiv.style.top = (y + totalOffset).toString() + "px";
+            childdiv.style.left = (x + totalOffset).toString() + "px";
+            circle_div.appendChild(childdiv);
+
+            //create parent
+            var $content = document.createElement('div');
+            $content.className = 'content content' + i;
+
+            // Astronaut name
+            $name = document.createElement('h2');
+            $name.className = 'content-name';
+            name  = response[i].name;
+            $name.innerText = name;
+
+            // Astronaut extract
+            $extract = document.createElement('p');
+            $extract.className = 'content-extract';
+            extract  = response[i].extract;
+            extract = extract.replace("<p>","").replace("</p>","").replace("<b>","").replace("</b>","").replace("<p>").replace("</p>");
+            $extract.innerText = extract;
+
+            $content.appendChild($name);
+            $content.appendChild($extract);
+            parent.appendChild($content);
+        }
+
+        var circle = document.querySelectorAll('.div_circle');
+
+
+        function animateButtonUp1() {
+            document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(0deg)' },{ transform: 'rotate(60deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            document.querySelector(".circle3").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            document.querySelector(".circle2").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            document.querySelector(".content3").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            document.querySelector(".content2").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            for (var i = 0; i < circle.length; i++){
+              console.log(circle.length);
+            circle[i].animate(
+              [{ transform: 'rotate(0deg)' },{ transform: 'rotate(-60deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(-60deg)";
+            }
+            document.querySelector('#circle_background').style.transform = "rotate(60deg)";
+            document.querySelector('.content3').style.opacity = "0";
+            document.querySelector('.content2').style.opacity = "1";
+            document.querySelector('.circle3').style.height = "120px";
+            document.querySelector('.circle3').style.width = "120px";
+            document.querySelector('.circle2').style.height = "160px";
+            document.querySelector('.circle2').style.width = "160px";
+            document.querySelector('.count_live').innerHTML = "2";
+            };
+
+        /** 2 **/
+
+        function animateButtonUp2() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(60deg)' },{ transform: 'rotate(120deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle2").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle1").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content2").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content1").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(-60deg)' },{ transform: 'rotate(-120deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(-120deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(120deg)";
+          document.querySelector('.content2').style.opacity = "0";
+          document.querySelector('.content1').style.opacity = "1";
+          document.querySelector('.circle2').style.height = "120px";
+          document.querySelector('.circle2').style.width = "120px";
+          document.querySelector('.circle1').style.height = "160px";
+          document.querySelector('.circle1').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "3";
+        };
+
+        /** 3 **/
+
+        function animateButtonUp3() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(120deg)' },{ transform: 'rotate(180deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle1").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle0").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content1").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content0").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(-120deg)' },{ transform: 'rotate(-180deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(-180deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(180deg)";
+          document.querySelector('.content1').style.opacity = "0";
+          document.querySelector('.content0').style.opacity = "1";
+          document.querySelector('.circle1').style.height = "120px";
+          document.querySelector('.circle1').style.width = "120px";
+          document.querySelector('.circle0').style.height = "160px";
+          document.querySelector('.circle0').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "4";
+        };
+
+        /** 4 **/
+
+        function animateButtonUp4() {
+
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(180deg)' },{ transform: 'rotate(240deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle0").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle5").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content0").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content5").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(-180deg)' },{ transform: 'rotate(-240deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(-240deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(240deg)";
+          document.querySelector('.content0').style.opacity = "0";
+          document.querySelector('.content5').style.opacity = "1";
+          document.querySelector('.circle0').style.height = "120px";
+          document.querySelector('.circle0').style.width = "120px";
+          document.querySelector('.circle5').style.height = "160px";
+          document.querySelector('.circle5').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "5";
+        };
+
+        /** 5 **/
+
+        function animateButtonUp5() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(240deg)' },{ transform: 'rotate(300deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle5").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle4").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content5").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content4").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(-240deg)' },{ transform: 'rotate(-300deg)' }],
+              {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(-300deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(300deg)";
+          document.querySelector('.content5').style.opacity = "0";
+          document.querySelector('.content4').style.opacity = "1";
+          document.querySelector('.circle5').style.height = "120px";
+          document.querySelector('.circle5').style.width = "120px";
+          document.querySelector('.circle4').style.height = "160px";
+          document.querySelector('.circle4').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "6";
+        };
+
+        /** 6 **/
+
+        function animateButtonUp6() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(300deg)' },{ transform: 'rotate(360deg)' }], {easing: "ease",duration: 750,iteration: 1 }
+          );
+          document.querySelector(".circle4").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1 }
+          );
+          document.querySelector(".circle3").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1 }
+          );
+          document.querySelector(".content4").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1 }
+          );
+          document.querySelector(".content3").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1 }
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(-300deg)' },{ transform: 'rotate(-360deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(-360deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(360deg)";
+          document.querySelector('.content4').style.opacity = "0";
+          document.querySelector('.content3').style.opacity = "1";
+          document.querySelector('.circle4').style.height = "120px";
+          document.querySelector('.circle4').style.width = "120px";
+          document.querySelector('.circle3').style.height = "160px";
+          document.querySelector('.circle3').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "1";
+        };
+
+
+
+
+        /******    DOWN ANIMATION    ******/
+
+
+        /** 1 **/
+
+        function animateButtonDown1() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(0deg)' },{ transform: 'rotate(-60deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle3").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle4").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content3").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content4").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(0deg)' },{ transform: 'rotate(60deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(60deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(-60deg)";
+          document.querySelector('.content3').style.opacity = "0";
+          document.querySelector('.content4').style.opacity = "1";
+          document.querySelector('.circle3').style.height = "120px";
+          document.querySelector('.circle3').style.width = "120px";
+          document.querySelector('.circle4').style.height = "160px";
+          document.querySelector('.circle4').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "6";
+        };
+
+        /** 2 **/
+
+        function animateButtonDown2() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(-60deg)' },{ transform: 'rotate(-120deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle4").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle5").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content4").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content5").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(60deg)' },{ transform: 'rotate(120deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(120deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(-120deg)";
+          document.querySelector('.content4').style.opacity = "0";
+          document.querySelector('.content5').style.opacity = "1";
+          document.querySelector('.circle4').style.height = "120px";
+          document.querySelector('.circle4').style.width = "120px";
+          document.querySelector('.circle5').style.height = "160px";
+          document.querySelector('.circle5').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "5";
+        };
+
+        /** 3 **/
+
+        function animateButtonDown3() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(-120deg)' },{ transform: 'rotate(-180deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle5").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle0").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content5").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content0").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(120deg)' },{ transform: 'rotate(180deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(180deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(-180deg)";
+          document.querySelector('.content5').style.opacity = "0";
+          document.querySelector('.content0').style.opacity = "1";
+          document.querySelector('.circle5').style.height = "120px";
+          document.querySelector('.circle5').style.width = "120px";
+          document.querySelector('.circle0').style.height = "160px";
+          document.querySelector('.circle0').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "4";
+        };
+
+        /** 4 **/
+
+        function animateButtonDown4() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(-180deg)' },{ transform: 'rotate(-240deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle0").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle1").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content0").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content1").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(180deg)' },{ transform: 'rotate(240deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(240deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(-240deg)";
+          document.querySelector('.content0').style.opacity = "0";
+          document.querySelector('.content1').style.opacity = "1";
+          document.querySelector('.circle0').style.height = "120px";
+          document.querySelector('.circle0').style.width = "120px";
+          document.querySelector('.circle1').style.height = "160px";
+          document.querySelector('.circle1').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "3";
+        };
+
+        /** 5 **/
+
+        function animateButtonDown5() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(-240deg)' },{ transform: 'rotate(-300deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle1").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle2").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content1").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content2").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(240deg)' },{ transform: 'rotate(300deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(300deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(-300deg)";
+          document.querySelector('.content1').style.opacity = "0";
+          document.querySelector('.content2').style.opacity = "1";
+          document.querySelector('.circle1').style.height = "120px";
+          document.querySelector('.circle1').style.width = "120px";
+          document.querySelector('.circle2').style.height = "160px";
+          document.querySelector('.circle2').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "2";
+        };
+
+        /** 6 **/
+
+        function animateButtonDown6() {
+          document.querySelector("#circle_background").animate(
+            [{ transform: 'rotate(-300deg)' },{ transform: 'rotate(-360deg)' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle2").animate(
+            [{ width: '160px', height: '160px' },{ width: '120px', height: '120px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".circle3").animate(
+            [{ width: '120px', height: '120px' },{ width: '160px', height: '160px' }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content2").animate(
+            [{ opacity: 1 },{ opacity: 0 },{ opacity: 0 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          document.querySelector(".content3").animate(
+            [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
+          );
+          for (var i = 0; i < circle.length; i++){
+            circle[i].animate(
+              [{ transform: 'rotate(300deg)' },{ transform: 'rotate(360deg)' }], {easing: "ease",duration: 750,iterations: 1}
+            );
+            circle[i].style.transform = "rotate(360deg)";
+          }
+          document.querySelector('#circle_background').style.transform = "rotate(-360deg)";
+          document.querySelector('.content2').style.opacity = "0";
+          document.querySelector('.content3').style.opacity = "1";
+          document.querySelector('.circle2').style.height = "120px";
+          document.querySelector('.circle2').style.width = "120px";
+          document.querySelector('.circle3').style.height = "160px";
+          document.querySelector('.circle3').style.width = "160px";
+          document.querySelector('.count_live').innerHTML = "1";
+        };
+
+
+        /** EXECUTION **/
+
+        var lethargy = new Lethargy();
+        var state = false;
+        var count = 2
+
+        /** MOUSE WHEEL **/
+
+        window.addEventListener("mousewheel", function(e) {
+            mouse_wheel_handler(e);
+        }, false);
+        window.addEventListener("DOMMouseScroll", function(e) {
+            mouse_wheel_handler(e);
+        }, false);
+
+        function mouse_wheel_handler(e){
+          e.preventDefault()
+          e.stopPropagation();
+          if(lethargy.check(e) !== false) {
+            if (!state) { state = !state;
+              if (lethargy.check(e) == 1) {  // Scroll Up
+                count -= 1;
+                console.log(count);
+                if (count == 2){ animateButtonUp6();}
+                else if (count == 3){animateButtonUp5();}
+                else if (count == 4){animateButtonUp4();}
+                else if (count == 5){animateButtonUp3();}
+                else if (count == 6){animateButtonUp2();}
+                else if (count == 0){animateButtonUp1(); count = 7;}
+                else {animateButtonUp1(); count = 7;}
+              }
+              else if (lethargy.check(e) == -1) {  // Scroll Down
+                count += 1;
+                console.log(count);
+                if (count == 2){animateButtonDown6();}
+                else if (count == 3){animateButtonDown1();}
+                else if (count == 4){animateButtonDown2();}
+                else if (count == 5){animateButtonDown3();}
+                else if (count == 6){animateButtonDown4();}
+                else if (count == 7){animateButtonDown5();}
+                else if (count == 8){animateButtonDown6(); count = 2;}
+                else{ animateButtonDown5(); count = 1;}
+              }
+            setTimeout(function(){state = false;}, 500);
+            }
+          }
+        };
+
+        /** KEY PRESS **/
+
+        window.addEventListener("keydown", keyMove, false);
+
+        function keyMove(e) {
+          switch(e.keyCode) {
+            case 38: // up key pressed
+              count -= 1;
+              console.log(count);
+              if (count == 2){ animateButtonUp6();}
+              else if (count == 3){animateButtonUp5();}
+              else if (count == 4){animateButtonUp4();}
+              else if (count == 5){animateButtonUp3();}
+              else if (count == 6){animateButtonUp2();}
+              else if (count == 0){animateButtonUp1(); count = 7;}
+              else {animateButtonUp1(); count = 7;}
+            break;
+            case 40: // down key pressed
+              count += 1;
+              console.log(count);
+              if (count == 2){animateButtonDown6();}
+              else if (count == 3){animateButtonDown1();}
+              else if (count == 4){animateButtonDown2();}
+              else if (count == 5){animateButtonDown3();}
+              else if (count == 6){animateButtonDown4();}
+              else if (count == 7){animateButtonDown5();}
+              else if (count == 8){animateButtonDown6(); count = 2;}
+              else{ animateButtonDown5(); count = 1;}
+            break;
+          }
+        }
+
+        /** BUTTON PRESS **/
+
+        var button_up = document.querySelector('.button_up'); // Button up
+            button_up.addEventListener('click', function() {
+              count -= 1;
+              console.log(count);
+              if (count == 2){ animateButtonUp6();}
+              else if (count == 3){animateButtonUp5();}
+              else if (count == 4){animateButtonUp4();}
+              else if (count == 5){animateButtonUp3();}
+              else if (count == 6){animateButtonUp2();}
+              else if (count == 0){animateButtonUp1(); count = 7;}
+              else {animateButtonUp1(); count = 7;}
+            });
+
+        var button_down = document.querySelector('.button_down'); // Button down
+            button_down.addEventListener('click', function() {
+              count += 1;
+              console.log(count);
+              if (count == 2){animateButtonDown6();}
+              else if (count == 3){animateButtonDown1();}
+              else if (count == 4){animateButtonDown2();}
+              else if (count == 5){animateButtonDown3();}
+              else if (count == 6){animateButtonDown4();}
+              else if (count == 7){animateButtonDown5();}
+              else if (count == 8){animateButtonDown6(); count = 2;}
+              else{ animateButtonDown5(); count = 1;}
+            });
+    });
 })
+
+
+/** Create circle **/
+
+
+
+
+/******    UP ANIMATION    ******/
+
+
+/** 1 **/

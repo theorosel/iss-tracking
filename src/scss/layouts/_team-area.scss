@@ -5,20 +5,184 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: #000000;
     transform: translateX(100%);
+    background-color: rgba(0,0,0,0.85);
     transition: $ease-cubic;
     will-change: transform;
     z-index: $zindex-2;
 }
 
-.members {
-    width: 30%;
-    height: 100%;
-    background-color: blue;
+.buttons {
+    position: absolute;
 }
 
-.member {
-    width: 100%;
-    height: calc(100% / 6);
+.buttons div{
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  background-color: $white;
+  cursor: pointer;
+}
+
+.buttons div img{
+  width: 100%;
+  height: 100%;
+}
+
+.button_up{
+
+}
+
+.button_down{
+}
+
+.names{
+  width: 100vw;
+  height: 0vw;
+}
+
+.names div{
+  position: absolute;
+  left: 44vw;
+  top: 50vh;
+  color: #fff;
+}
+
+.thomas{
+  opacity: 1;
+}
+
+.andrei{
+  opacity: 0;
+}
+
+.robert{
+  opacity: 0;
+}
+
+.sergei{
+  opacity: 0;
+}
+
+.peggy{
+  opacity: 0;
+}
+
+.oleg{
+  opacity: 0;
+}
+
+.circle_container{
+    position: absolute;
+    top: 50%;
+    right: -40%;
+    transform: translateY(-50%);
+}
+
+#circle_background{
+  width: 550px;
+  height: 550px;
+  transform: rotate(0deg);
+  transform-origin: center center;
+  border: 3px dashed #fff;
+  border-radius: 300px;
+}
+
+#circle_div {
+  width: 556px;
+  height: 556px;
+  display: flex;
+}
+
+.circle0
+{
+  width: 120px;
+  height: 120px;
+}
+
+.circle1
+{
+  width: 120px;
+  height: 120px;
+}
+
+.circle2
+{
+  width: 120px;
+  height: 120px;
+}
+
+.circle3
+{
+  width: 160px;
+  height: 160px;
+}
+
+.circle4
+{
+  width: 120px;
+  height: 120px;
+}
+
+.circle5
+{
+  width: 120px;
+  height: 120px;
+}
+
+.circle6
+{
+  width: 120px;
+  height: 120px;
+}
+
+.div_circle
+{
+  border-radius: 180px;
+  border: 3px solid $white;
+  transform: rotate(0deg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.count
+{
+  position: absolute;
+  top: 0;
+}
+
+.count p
+{
+  color: $white;
+  float: left;
+  letter-spacing: 10px;
+}
+
+
+.content {
+    position: absolute;
+    top: 300px;
+    max-width: 50%;
+    color: $white;
+    margin-left: 60px;
+}
+
+.content-name {
+    font-size: 24px;
+    font-family: 'Open sans';
+}
+
+.content-extract {
+    font-size: 14px;
+    line-height: 29px;
+    font-family: 'Open sans';
+    margin-top: 30px;
+}
+
+.content0,
+.content1,
+.content2,
+.content4,
+.content5 {
+    opacity: 0;
 }

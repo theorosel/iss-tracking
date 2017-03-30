@@ -5,7 +5,7 @@
     top: 0;
     left: 0;
     bottom: 0;
-    background-color: #000000;
+    background-color: rgba(0,0,0,0.7);
     transform: translateX(-100%);
     transition: $ease-cubic;
     will-change: transform;

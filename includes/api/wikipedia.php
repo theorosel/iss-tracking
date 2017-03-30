@@ -21,7 +21,7 @@
         $forecast_wikipedia_name = json_decode($wikipedia_name);
 
         $result['name']          = $forecast_wikipedia_name->query->pages->{$pageKey}->title;
-        $result['extract']       = $forecast_wikipedia_name->query->pages->{$pageKey}->extract;
+        $result['extract']       = strip_tags($forecast_wikipedia_name->query->pages->{$pageKey}->extract);
 
         $path_wikipedia_info  = 'https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&format=json&pageids='.$pageKey.'&rvsection=0';
         $wikipedia_info = file_get_contents($path_wikipedia_info);

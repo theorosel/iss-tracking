@@ -3,6 +3,7 @@ function App(element) {
     // DOM elements
     this.$el           = {};
     this.$el.container = element;
+    this.$el.feeds     = this.$el.container.querySelector('.feed-area');
     this.$el.altitude  = this.$el.container.querySelector('.altitude');
     this.$el.speed     = this.$el.container.querySelector('.speed');
     this.$el.city_over = this.$el.container.querySelector('.city');
@@ -19,7 +20,8 @@ function App(element) {
         zoom: 2.5,
         zooming:false,
         unconstrainedRotation:true,
-        sky:true};
+        sky:true
+    };
 
     this.earth = new WE.map('earth', this.options);
 
@@ -67,9 +69,9 @@ function App(element) {
     // ... is coming
 
 
-    setInterval(function(){
-        self.update_iss_data();
-    }, 3000);
+    // setInterval(function(){
+    //     self.update_iss_data();
+    // }, 5000);
 
 
     this.init = function() {
@@ -138,7 +140,14 @@ function App(element) {
                     var lat = JSON.parse(req.response)[0].latitude;
                     var lon = JSON.parse(req.response)[0].longitude;
 
-                    self.add_mark(lat, lon, i);
+                    self.latest_tweets[i].lat = lat;
+                    self.latest_tweets[i].lon = lon;
+
+                    console.log(self.latest_tweets[i].lat);
+                    console.log(self.latest_tweets[i].lon);
+
+                    self.add_mark(i);
+                    self.print_tweet_feed(i);
                 }
                 else {
                     reject(Error(req.statusText));
@@ -185,6 +194,13 @@ function App(element) {
         xhttp.send();
     }
 
+
+    /*
+     * get_iss_data()
+     * Called every X second
+     * get ISS altitude, latitude, longitude & speed with
+     * ajax request to http://wheretheiss.at/w/developer
+     */
     this.update_iss_data = function() {
         var xhttp  = new XMLHttpRequest();
 
@@ -293,14 +309,24 @@ function App(element) {
         }
     }
 
+    this.print_tweet_feed = function(i) {
+
+        console.log(self.latest_tweets[i]);
+
+        $feed = document.createElement('div');
+        $feed.classList.add('feed');
+        $feed.innerText = self.latest_tweets[i].id;
+        self.$el.feeds.appendChild($feed);
+    }
+
 
     /*
      * add_mark(lat: number, lon: number, i: number)
      * Called in get_tweet_pos()
      * Add marker on the map according to lat & lon
      */
-    this.add_mark = function(lat, lon, i) {
-        var marker = WE.marker([lat, lon]).addTo(this.earth);
+    this.add_mark = function(i) {
+        var marker = WE.marker([this.latest_tweets[i].lat, this.latest_tweets[i].lon]).addTo(this.earth);
 
         $marker = marker.element.firstChild;
         $marker.classList.remove('we-pm-icon');

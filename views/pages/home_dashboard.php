@@ -25,16 +25,26 @@
 
 <!-- $team area -->
 <section class="team-area">
+
+    <!-- $carousel -->
+    <div class="circle_container">
+      <div id="circle_background">
+        <div id="circle_div"></div>
+      </div>
+    </div>
+
+    <!-- $carousel controls -->
+    <div class="buttons">
+      <div class="button_up"><img src="Arrow_Up.png" alt="up"></div>
+      <div class="button_down"><img src="Arrow_Down.png" alt="up"><p>down</p></div>
+    </div>
+    <div class="count">
+      <p class="count_live">1</p>
+      <p>/6</p>
+    </div>
+
     <a href="#" class="link link-team">
         <span class="link-text">TEAM</span>
         <span class="link-tick"></span>
     </a>
-    <!-- <ul class="members">
-        <li class="member m-1"></li>
-        <li class="member m-2"></li>
-        <li class="member m-3"></li>
-        <li class="member m-4"></li>
-        <li class="member m-5"></li>
-        <li class="member m-6"></li>
-    </ul> -->
 </section>
