@@ -87,11 +87,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
             // Astronaut age
             $age = document.createElement('div');
-            $age.className = 'Age';
+            $age.className = 'age';
 
             $age_text = document.createElement('p');
             $age_text.className = 'age-text';
-            $age_text.innerText = 'age : ';
+            $age_text.innerText = 'Age : ';
 
             $age_data = document.createElement('p');
             $age_data.className = 'age-data';
@@ -102,11 +102,11 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
             // Astronaut age
             $nationality = document.createElement('div');
-            $nationality.className = 'Nationality';
+            $nationality.className = 'nationality';
 
             $nationality_text = document.createElement('p');
             $nationality_text.className = 'nationality-text';
-            $nationality_text.innerText = 'nationality : ';
+            $nationality_text.innerText = 'Nationality : ';
 
             $nationality_data = document.createElement('p');
             $nationality_data.className = 'nationality-data';

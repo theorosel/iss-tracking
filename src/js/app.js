@@ -8,16 +8,19 @@ function App(element) {
     this.$el.altitude   = this.$el.container.querySelector('.altitude');
     this.$el.speed      = this.$el.container.querySelector('.speed');
     this.$el.city_over  = this.$el.container.querySelector('.city');
-    this.$el.iss_btn    = this.$el.container.querySelector('.iss-button');
+    this.$el.iss_btn    = this.$el.container.querySelector('.find-iss');
     this.$el.feed_link  = this.$el.container.querySelector('.link-feed');
     this.$el.team_link  = this.$el.container.querySelector('.link-team');
     this.$el.earth      = this.$el.container.querySelector('#earth');
+
+    this.earth_zoom     = 2.5;
+    var self = this;
 
     // Earth data
     this.options = {
         atmosphere: false,
         center: [0, 0],
-        zoom: 2.5,
+        zoom: self.earth_zoom,
         zooming:false,
         unconstrainedRotation:true,
         sky:true
@@ -31,8 +34,6 @@ function App(element) {
 
     // Tweets
     this.latest_tweets = [];
-
-    var self = this;
 
     /*
      * initialize()
@@ -60,12 +61,9 @@ function App(element) {
     });
 
     // cropping the map on the ISS
-    // this.$el.iss_btn.addEventListener('click', function(event) {
-    //     self.get_iss_data();
-    // });
-
-    // cropping the map on user location
-    // ... is coming
+    this.$el.iss_btn.addEventListener('click', function(event) {
+        self.get_iss_data();
+    });
 
 
     setInterval(function(){
