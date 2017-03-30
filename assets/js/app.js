@@ -1,18 +1,17 @@
 function App(element) {
 
     // DOM elements
-    this.$el           = {};
-    this.$el.container = element;
-    this.$el.feeds     = this.$el.container.querySelector('.feed-area-container');
-    this.$el.earth_area= this.$el.container.querySelector('.earth-area');
-
-    this.$el.altitude  = this.$el.container.querySelector('.altitude');
-    this.$el.speed     = this.$el.container.querySelector('.speed');
-    this.$el.city_over = this.$el.container.querySelector('.city');
-    this.$el.iss_btn   = this.$el.container.querySelector('.iss-button');
-    this.$el.feed_link = this.$el.container.querySelector('.link-feed');
-    this.$el.team_link = this.$el.container.querySelector('.link-team');
-    this.$el.earth     = this.$el.container.querySelector('#earth');
+    this.$el            = {};
+    this.$el.container  = element;
+    this.$el.feeds      = this.$el.container.querySelector('.feed-area-container');
+    this.$el.earth_area = this.$el.container.querySelector('.earth-area');
+    this.$el.altitude   = this.$el.container.querySelector('.altitude');
+    this.$el.speed      = this.$el.container.querySelector('.speed');
+    this.$el.city_over  = this.$el.container.querySelector('.city');
+    this.$el.iss_btn    = this.$el.container.querySelector('.iss-button');
+    this.$el.feed_link  = this.$el.container.querySelector('.link-feed');
+    this.$el.team_link  = this.$el.container.querySelector('.link-team');
+    this.$el.earth      = this.$el.container.querySelector('#earth');
 
     // Earth data
     this.options = {
@@ -69,9 +68,19 @@ function App(element) {
     // ... is coming
 
 
-    // setInterval(function(){
-    //     self.update_iss_data();
-    // }, 5000);
+    setInterval(function(){
+        self.update_iss_data();
+    }, 5000);
+
+    setInterval(function(){
+        this.get_latest_tweets().then(function(response) {
+
+            for (var i = 0; i < self.latest_tweets.length - 1; i++) {
+
+                self.get_tweet_pos(self.latest_tweets[i].tweet_date, i);
+            }
+        });
+    }, 900000);
 
 
     this.init = function() {

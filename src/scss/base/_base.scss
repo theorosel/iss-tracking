@@ -53,7 +53,7 @@ a {
         transition: $ease-cubic;
 
         .iss-overflown {
-            transform: translateX(130%);
+            transform: translateX(80%);
             transition: $ease-cubic;
         }
 
@@ -64,6 +64,11 @@ a {
 
         .iss-altitude {
             transform: translateX(-200%);
+            transition: $ease-cubic;
+        }
+
+        .live {
+            transform: translateX(80%) scale(0.6);
             transition: $ease-cubic;
         }
     }
