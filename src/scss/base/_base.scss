@@ -6,7 +6,8 @@ html {
 }
 
 body {
-    font-family: 'Ailerons', Arial, sans-serif;
+    font-family: 'Open sans', Arial, sans-serif;
+    overflow: hidden;
 }
 
 .app {
@@ -17,7 +18,6 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    overflow: hidden;
     transition: $ease-cubic;
 }
 
@@ -36,10 +36,20 @@ a {
     .feed-area {
         transform: translateX(0%);
         transition: $ease-cubic;
+
+        @for $i from 1 to 100 {
+            .feed:nth-child(#{$i}) {
+                animation-name: enter;
+                animation-duration: 0.3s;
+                animation-timing-function: $ease-cubic;
+                animation-fill-mode: forwards;
+                animation-delay: #{($i * 0.05) + 0.2}s;
+            }
+        }
     }
 
     .earth-area {
-        transform: translateX(25%);
+        transform: translateX(18%);
         transition: $ease-cubic;
 
         .iss-overflown {

@@ -1,0 +1,40 @@
+.feed {
+    color: $white;
+    padding: 20px;
+    box-shadow: $popup_shadow;
+    margin-bottom: 40px;
+    transform: translateX(-150px);
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: $hover_shadow;
+        transform: scale(1.2);
+        transition: $easeinout_1;
+    }
+}
+
+.feed-image {
+    box-shadow: $popup_shadow;
+}
+
+.feed-name {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 700;
+    margin-left: 20px;
+    vertical-align: top;
+}
+
+.feed-pseudo {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 300;
+    display: block;
+    margin-top: 12px;
+}
+
+.feed-text {
+    margin-top: 15px;
+    font-size: 16px;
+    line-height: 24px;
+}

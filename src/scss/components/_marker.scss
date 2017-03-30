@@ -7,6 +7,8 @@
     border-radius: 50%;
     box-shadow: $marker_shadow;
     cursor: pointer;
+    transform: scale(1);
+    transition: $ease-cubic;
     z-index: $zindex-3;
 
     &:after {
@@ -18,5 +20,10 @@
         border: 1px solid $white;
         transform: translate(-30%, -30%);
         box-shadow: $marker_shadow;
+    }
+
+    &:hover {
+        transform: scale(0.8);
+        transition: $ease-cubic;
     }
 }

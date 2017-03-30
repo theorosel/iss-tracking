@@ -1,5 +1,8 @@
 <!-- $feed area -->
 <section class="feed-area">
+    <div class="feed-area-container">
+
+    </div>
     <a href="#" class="link link-feed">
         <span class="link-text">FEED</span>
         <span class="link-tick"></span>
@@ -25,6 +28,7 @@
 
 <!-- $team area -->
 <section class="team-area">
+    <h3 class="team-area-title">MISSION 50</h3>
 
     <!-- $carousel -->
     <div class="circle_container">
@@ -35,13 +39,24 @@
 
     <!-- $carousel controls -->
     <div class="buttons">
-      <div class="button_up"><img src="Arrow_Up.png" alt="up"></div>
-      <div class="button_down"><img src="Arrow_Down.png" alt="up"><p>down</p></div>
+      <a href="#" class="button-up">
+          <svg viewBox="0 0 459 459" xml:space="preserve">
+              <path d="M229.5,71.4l81.6,81.6l35.7-35.7L229.5,0L112.2,117.3l35.7,35.7L229.5,71.4z"/>
+          </svg>
+      </a>
+
+      <div class="count">
+        <p class="count_live">1</p>
+        <p>/6</p>
+      </div>
+
+      <a href="#" class="button-down">
+          <svg viewBox="0 0 459 459"  xml:space="preserve">
+              <path d="M229.5,71.4l81.6,81.6l35.7-35.7L229.5,0L112.2,117.3l35.7,35.7L229.5,71.4z"/>
+          </svg>
+      </a>
     </div>
-    <div class="count">
-      <p class="count_live">1</p>
-      <p>/6</p>
-    </div>
+
 
     <a href="#" class="link link-team">
         <span class="link-text">TEAM</span>

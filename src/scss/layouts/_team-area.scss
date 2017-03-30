@@ -6,22 +6,53 @@
     right: 0;
     bottom: 0;
     transform: translateX(100%);
-    background-color: rgba(0,0,0,0.85);
+    background: linear-gradient(270deg, rgba(0,0,0,1) 4%, rgba(0,0,0,1) 47%, rgba(0,0,0,1) 49%, rgba(0,0,0,0.05) 100%);
+    color: $white;
     transition: $ease-cubic;
     will-change: transform;
     z-index: $zindex-2;
 }
 
-.buttons {
-    position: absolute;
+.team-area-title {
+    font-size: 34px;
+    font-weight: 700;
+    margin-left: 90px;
+    margin-top: 60px;
 }
 
-.buttons div{
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  background-color: $white;
-  cursor: pointer;
+.buttons {
+    position: absolute;
+    bottom: 90px;
+    left: 100px;
+    height: 80px;
+}
+
+.buttons a {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.button-up {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    svg {
+        fill: $white;
+    }
+}
+
+.button-down {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    svg {
+        fill: $white;
+        transform: rotate(180deg);
+    }
 }
 
 .buttons div img{
@@ -84,14 +115,14 @@
   height: 550px;
   transform: rotate(0deg);
   transform-origin: center center;
-  border: 3px dashed #fff;
+  // border: 1px dashed $white;
+  box-shadow: $popup_shadow;
   border-radius: 300px;
 }
 
 #circle_div {
   width: 556px;
   height: 556px;
-  display: flex;
 }
 
 .circle0
@@ -136,26 +167,27 @@
   height: 120px;
 }
 
-.div_circle
-{
-  border-radius: 180px;
-  border: 3px solid $white;
-  transform: rotate(0deg);
-  background-repeat: no-repeat;
-  background-size: cover;
+.div_circle {
+    border-radius: 180px;
+    box-shadow: $marker_shadow;
+    transform: rotate(0deg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-.count
-{
-  position: absolute;
-  top: 0;
+.count {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
 }
 
-.count p
-{
+.count p {
   color: $white;
-  float: left;
-  letter-spacing: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 
@@ -164,17 +196,17 @@
     top: 300px;
     max-width: 50%;
     color: $white;
-    margin-left: 60px;
+    margin-left: 90px;
 }
 
 .content-name {
-    font-size: 24px;
+    font-size: 28px;
     font-family: 'Open sans';
 }
 
 .content-extract {
-    font-size: 14px;
-    line-height: 29px;
+    font-size: 15px;
+    line-height: 23px;
     font-family: 'Open sans';
     margin-top: 30px;
 }

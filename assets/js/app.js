@@ -3,7 +3,9 @@ function App(element) {
     // DOM elements
     this.$el           = {};
     this.$el.container = element;
-    this.$el.feeds     = this.$el.container.querySelector('.feed-area');
+    this.$el.feeds     = this.$el.container.querySelector('.feed-area-container');
+    this.$el.earth_area= this.$el.container.querySelector('.earth-area');
+
     this.$el.altitude  = this.$el.container.querySelector('.altitude');
     this.$el.speed     = this.$el.container.querySelector('.speed');
     this.$el.city_over = this.$el.container.querySelector('.city');
@@ -11,7 +13,6 @@ function App(element) {
     this.$el.feed_link = this.$el.container.querySelector('.link-feed');
     this.$el.team_link = this.$el.container.querySelector('.link-team');
     this.$el.earth     = this.$el.container.querySelector('#earth');
-    this.$el.markers   = null;
 
     // Earth data
     this.options = {
@@ -28,7 +29,6 @@ function App(element) {
     // ISS data
     this.path      = [];
     this.ship_path = [];
-    this.markers   = [];
 
     // Tweets
     this.latest_tweets = [];
@@ -143,11 +143,9 @@ function App(element) {
                     self.latest_tweets[i].lat = lat;
                     self.latest_tweets[i].lon = lon;
 
-                    console.log(self.latest_tweets[i].lat);
-                    console.log(self.latest_tweets[i].lon);
-
                     self.add_mark(i);
                     self.print_tweet_feed(i);
+
                 }
                 else {
                     reject(Error(req.statusText));
@@ -309,14 +307,72 @@ function App(element) {
         }
     }
 
-    this.print_tweet_feed = function(i) {
 
-        console.log(self.latest_tweets[i]);
+    /*
+     * print_tweet_feed()
+     * Called in get_tweet_pos()
+     * Print the feed according to the tweet
+     */
+    this.print_tweet_feed = function(i) {
 
         $feed = document.createElement('div');
         $feed.classList.add('feed');
-        $feed.innerText = self.latest_tweets[i].id;
+
+        // feed image
+        $image = document.createElement('img');
+        $image.classList.add('feed-image');
+        $image.setAttribute('src', self.latest_tweets[i].picture);
+
+        // feed name
+        $name = document.createElement('h2');
+        $name.classList.add('feed-name');
+        $name.innerText = self.latest_tweets[i].name;
+
+        // feed pseudo
+        $pseudo = document.createElement('p');
+        $pseudo.classList.add('feed-pseudo');
+        $pseudo.innerText = '@ ' + self.latest_tweets[i].pseudo;
+
+        // feed text
+        $text = document.createElement('p');
+        $text.classList.add('feed-text');
+        $text.innerText = self.latest_tweets[i].tweet_text;
+
+        // Construct feed
+        $feed.appendChild($image);
+        $name.appendChild($pseudo);
+        $feed.appendChild($name);
+        $feed.appendChild($text);
+
+        // Set to the parent
         self.$el.feeds.appendChild($feed);
+
+
+        // Set click event listener
+        $feed.addEventListener('click', function(ev) {
+
+            $popup = self.latest_tweets[i].obj.parentElement.lastChild;
+            console.log(self.latest_tweets[i]);
+
+            self.earth.panTo([
+                self.latest_tweets[i].lat,
+                self.latest_tweets[i].lon
+            ]);
+
+            $popup.classList.toggle('active');
+            $feed.classList.toggle('active');
+            event.preventDefault();
+        });
+
+        this.$el.earth_area.addEventListener('click', function(ev) {
+            $popup = self.latest_tweets[i].obj.parentElement.lastChild;
+
+            if ($popup.classList.contains('active')) {
+                $popup.classList.remove('active');
+            }
+
+            event.preventDefault();
+        });
     }
 
 
@@ -331,9 +387,12 @@ function App(element) {
         $marker = marker.element.firstChild;
         $marker.classList.remove('we-pm-icon');
         $marker.removeAttribute('style');
+        $marker.setAttribute('id', this.latest_tweets[i].id);
         $marker.classList.add('we-pm-icon-marker');
 
         self.create_popup(marker.element, i);
+        self.latest_tweets[i].obj = $marker;
+
     }
 
 
@@ -361,16 +420,18 @@ function App(element) {
 
         $text = document.createElement('p');
         $text.classList.add('popup-text');
-        $text.innerText = self.latest_tweets[i].tweet_text;
+        $text.innerText = self.excerpt(self.latest_tweets[i].tweet_text);
 
         // $popup.appendChild($image);
         // $popup.appendChild($name);
 
+        // Construct popup
         $popup_header.appendChild($image);
         $popup_header.appendChild($name);
         $popup.appendChild($popup_header);
         $popup.appendChild($text);
 
+        // Set to parent
         marker.appendChild($popup);
 
         // Set hover listener
@@ -439,6 +500,29 @@ function App(element) {
         this.$el.feed_link.classList.remove('active');
         this.$el.container.classList.remove('feed-mode');
     }
+
+
+    /*
+     * excerpt()
+     * Called in ajax render
+     * Return xx characters of the string
+     */
+    this.excerpt = function(text) {
+
+        text = text.trim();
+        text_length = text.length;
+
+        if (text_length >= 400) {
+
+            text = text.substring(0, 400);
+
+            return text;
+        }
+
+        else {
+            return text;
+        }
+    }
 }
 
 var earth = new App(document.querySelector('.app'));
@@ -447,3 +531,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     earth.init();
 })
+
+
+// For later
+// window.onbeforeunload = function() {
+// }

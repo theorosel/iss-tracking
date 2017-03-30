@@ -5,6 +5,23 @@ var offsetToParentCenter = parseInt(circle_div.offsetWidth / 2);  //assumes pare
 var offsetToChildCenter = 70;
 var totalOffset = offsetToParentCenter - offsetToChildCenter;
 
+function excerpt(text) {
+
+    text = text.trim();
+    text_length = text.length;
+
+    if (text_length >= 500) {
+
+        text = text.substring(0, 500);
+
+        return text;
+    }
+
+    else {
+        return text;
+    }
+};
+
 
 function get_astronautes() {
     return new Promise(function(resolve, reject) {
@@ -65,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
             $extract = document.createElement('p');
             $extract.className = 'content-extract';
             extract  = response[i].extract;
-            extract = extract.replace("<p>","").replace("</p>","").replace("<b>","").replace("</b>","").replace("<p>").replace("</p>");
+            extract = excerpt(extract);
             $extract.innerText = extract;
 
             $content.appendChild($name);
@@ -498,12 +515,15 @@ document.addEventListener('DOMContentLoaded', function(event) {
         var state = false;
         var count = 2
 
+
         /** MOUSE WHEEL **/
 
-        window.addEventListener("mousewheel", function(e) {
+        var team = document.querySelector('.team-area');
+
+        team.addEventListener("mousewheel", function(e) {
             mouse_wheel_handler(e);
         }, false);
-        window.addEventListener("DOMMouseScroll", function(e) {
+        team.addEventListener("DOMMouseScroll", function(e) {
             mouse_wheel_handler(e);
         }, false);
 
@@ -574,7 +594,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
         /** BUTTON PRESS **/
 
-        var button_up = document.querySelector('.button_up'); // Button up
+        var button_up = document.querySelector('.button-up'); // Button up
             button_up.addEventListener('click', function() {
               count -= 1;
               console.log(count);
@@ -587,7 +607,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
               else {animateButtonUp1(); count = 7;}
             });
 
-        var button_down = document.querySelector('.button_down'); // Button down
+        var button_down = document.querySelector('.button-down'); // Button down
             button_down.addEventListener('click', function() {
               count += 1;
               console.log(count);
@@ -602,14 +622,3 @@ document.addEventListener('DOMContentLoaded', function(event) {
             });
     });
 })
-
-
-/** Create circle **/
-
-
-
-
-/******    UP ANIMATION    ******/
-
-
-/** 1 **/
