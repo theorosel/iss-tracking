@@ -6,6 +6,7 @@ function App(element) {
     this.$el.altitude  = this.$el.container.querySelector('.altitude');
     this.$el.speed     = this.$el.container.querySelector('.speed');
     this.$el.city_over = this.$el.container.querySelector('.city');
+    this.$el.iss_btn   = this.$el.container.querySelector('.iss-button');
     this.$el.feed_link = this.$el.container.querySelector('.link-feed');
     this.$el.team_link = this.$el.container.querySelector('.link-team');
     this.$el.earth     = this.$el.container.querySelector('#earth');
@@ -19,7 +20,7 @@ function App(element) {
         zooming:false,
         unconstrainedRotation:true,
         sky:true};
-        
+
     this.earth = new WE.map('earth', this.options);
 
     // ISS data
@@ -32,10 +33,23 @@ function App(element) {
 
     var self = this;
 
-
     /*
-     * Links click event Handler
+     * initialize()
+     * Called when the DOM is fully loaded
+     * Generate earth
      */
+    this.initialize_earth = function() {
+        WE.tileLayer('http://tileserver.maptiler.com/nasa/{z}/{x}/{y}.jpg', {
+            minZoom: 0,
+            maxZoom: 300,
+            zooming: false,
+            attribution: 'NASA'
+        }).addTo(this.earth);
+    }
+
+
+
+    // Toggle feed & team layers
     this.$el.feed_link.addEventListener('click', function(event) {
         self.toggle_feed();
     });
@@ -44,148 +58,99 @@ function App(element) {
         self.toggle_team();
     });
 
+    // cropping the map on the ISS
+    // this.$el.iss_btn.addEventListener('click', function(event) {
+    //     self.get_iss_data();
+    // });
+
+    // cropping the map on user location
+    // ... is coming
+
 
     setInterval(function(){
-        self.get_iss_data();
+        self.update_iss_data();
     }, 3000);
 
 
     this.init = function() {
-        this.get_latest_tweets();
+        this.initialize_earth();
+        this.get_iss_data();
+        this.get_latest_tweets().then(function(response) {
 
-        setTimeout(function() {
+            for (var i = 0; i < self.latest_tweets.length - 1; i++) {
 
-            for (var i = 0; i < self.latest_tweets.length; i++) {
-
-                self.get_twitter_pos(self.latest_tweets[i].picture);
-
-                self.add_mark(i, i);
-
-                $popup = document.createElement('div');
-                $popup.classList.add('marker-popup');
-
-                $image = document.createElement('img');
-                $image.classList.add('popup-image');
-                $image.setAttribute('src', self.latest_tweets[i].picture);
-
-                $text = document.createElement('p');
-                $text.classList.add('popup-text');
-                $text.innerText = self.latest_tweets[i].tweet_text;
-
-                $popup.appendChild($image);
-                $popup.appendChild($text);
-                console.log(self.latest_tweets[i].tweet_text);
-
-
-                // $popup.appendChild(self.latest_tweets[i].id);
-
-                self.markers[i].element.appendChild($popup);
-
-                self.markers[i].element.addEventListener('mouseover', function() {
-
-                    this.lastChild.style.opacity = 1;
-                    this.lastChild.style.transform = 'scale(1)';
-                })
-
-                self.markers[i].element.addEventListener('mouseleave', function() {
-
-                    this.lastChild.style.opacity = 0;
-                    this.lastChild.style.transform = 'scale(0)';
-                })
+                self.get_tweet_pos(self.latest_tweets[i].tweet_date, i);
             }
-
-            // for (var j = 0; j < self.markers.length; j++) {
-            //
-            //     $popup = document.createElement('div');
-            //     $popup.classList.add('marker-popup');
-            //
-            //     self.markers[j].element.appendChild($popup);
-            //
-            //     self.markers[j].element.addEventListener('mouseover', function() {
-            //
-            //         this.lastChild.style.opacity = 1;
-            //         this.lastChild.style.transform = 'scale(1)';
-            //     })
-            //
-            //     self.markers[j].element.addEventListener('mouseleave', function() {
-            //
-            //         this.lastChild.style.opacity = 0;
-            //         this.lastChild.style.transform = 'scale(0)';
-            //     })
-            // }
-        }, 2000);
-
-
-
-        // this.current_pos();
-        // this.get_iss_data();
-        // this.add_mark(-50, -50);
-        // this.add_mark(-30, -30);
-
-        // for (var i = 0; i < this.markers.length; i++) {
-        //     console.log(this.markers[i]);
-        //     $popup = document.createElement('div');
-        //     $popup.classList.add('marker-popup');
-        //
-        //     this.markers[i].element.appendChild($popup);
-        //
-        //     this.markers[i].element.addEventListener('mouseover', function() {
-        //         this.lastChild.style.opacity = 1;
-        //         this.lastChild.style.transform = 'scale(1)';
-        //     })
-        //
-        //     this.markers[i].element.addEventListener('mouseleave', function() {
-        //         this.lastChild.style.opacity = 0;
-        //         this.lastChild.style.transform = 'scale(0)';
-        //     })
-        // }
-
-        console.log(this.markers);
+        });
     }
 
 
     /*
      * get_latest_tweets()
      * Called when the DOM is fully loaded
-     * Get X latests tweets
+     * Get X latest tweets with promise request to our local API : /api/twitter
      */
     this.get_latest_tweets = function() {
-        var xhttp  = new XMLHttpRequest();
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
 
-        xhttp.onreadystatechange = function() {
+            req.open('GET', '/api/twitter');
 
-            if (this.readyState == 4 && this.status == 200) {
+            req.onload = function() {
+                if (req.status == 200) {
+                    resolve(req.response);
 
-                var results = JSON.parse(this.responseText);
-                console.log(results);
+                    var results = JSON.parse(req.response);
 
-                for (var i = 0; i < results.length; i++) {
-                    self.latest_tweets.push(results[i]);
+                    for (var i = 0; i < results.length; i++) {
+                        self.latest_tweets.push(results[i]);
+                    }
                 }
-            }
-        };
+                else {
+                    reject(Error(req.statusText));
+                }
+            };
 
-        xhttp.open("GET", "/api/twitter", true);
-        xhttp.send();
-    }
+            req.onerror = function() {
+                reject(Error("Network Error"));
+            };
 
-    this.get_twitter_pos = function() {
-
+            req.send();
+        });
     }
 
 
     /*
-     * initialize()
-     * Called when the DOM is fully loaded
-     * Generate earth
+     * get_tweet_pos()
+     * Called in get_latest_tweets()
+     * Get location of the tweet according to ISS location at the same timestamp
      */
-    this.initialize = function() {
-        WE.tileLayer('http://tileserver.maptiler.com/nasa/{z}/{x}/{y}.jpg', {
-            minZoom: 0,
-            maxZoom: 300,
-            zooming: false,
-            attribution: 'NASA'
-        }).addTo(this.earth);
+    this.get_tweet_pos = function(timestamp,i) {
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+
+            req.open('GET', "https://api.wheretheiss.at/v1/satellites/25544/positions?timestamps="+timestamp+"&units=miles");
+
+            req.onload = function() {
+                if (req.status == 200) {
+
+                    resolve(req.response);
+                    var lat = JSON.parse(req.response)[0].latitude;
+                    var lon = JSON.parse(req.response)[0].longitude;
+
+                    self.add_mark(lat, lon, i);
+                }
+                else {
+                    reject(Error(req.statusText));
+                }
+            };
+
+            req.onerror = function() {
+                reject(Error("Network Error"));
+            };
+
+            req.send();
+        });
     }
 
 
@@ -212,11 +177,41 @@ function App(element) {
                 self.update_speed(speed);
                 self.update_altitude(alti);
                 self.move_iss(lat, lon);
+                self.iss_cropping(lat, lon);
             }
         };
 
         xhttp.open("GET", "https://api.wheretheiss.at/v1/satellites/25544&units=miles", true);
         xhttp.send();
+    }
+
+    this.update_iss_data = function() {
+        var xhttp  = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+
+            if (this.readyState == 4 && this.status == 200) {
+
+                var alti  = JSON.parse(this.responseText).altitude,
+                    lat   = JSON.parse(this.responseText).latitude,
+                    lon   = JSON.parse(this.responseText).longitude,
+                    speed = JSON.parse(this.responseText).velocity;
+
+                self.draw_travel(lat, lon);
+                self.get_city_overflown(lat, lon);
+                self.update_speed(speed);
+                self.update_altitude(alti);
+                self.move_iss(lat, lon);
+            }
+        };
+
+        xhttp.open("GET", "https://api.wheretheiss.at/v1/satellites/25544&units=miles", true);
+        xhttp.send();
+    }
+
+    this.iss_cropping =  function(lat, lon) {
+
+        this.earth.panTo([lat, lon]);
     }
 
 
@@ -300,11 +295,11 @@ function App(element) {
 
 
     /*
-     * add_mark()
-     * Called in get_iss_feed()
+     * add_mark(lat: number, lon: number, i: number)
+     * Called in get_tweet_pos()
      * Add marker on the map according to lat & lon
      */
-    this.add_mark = function(lat, lon) {
+    this.add_mark = function(lat, lon, i) {
         var marker = WE.marker([lat, lon]).addTo(this.earth);
 
         $marker = marker.element.firstChild;
@@ -312,7 +307,58 @@ function App(element) {
         $marker.removeAttribute('style');
         $marker.classList.add('we-pm-icon-marker');
 
-        self.markers.push(marker);
+        self.create_popup(marker.element, i);
+    }
+
+
+    /*
+     * create_popup(i: number)
+     * Called in add_mark()
+     * Add create popup of the marker
+     */
+    this.create_popup = function(marker, i) {
+
+        // Create popup template
+        $popup = document.createElement('div');
+        $popup.classList.add('marker-popup');
+
+        $popup_header = document.createElement('div');
+        $popup_header.classList.add('popup-header');
+
+        $image = document.createElement('img');
+        $image.classList.add('popup-image');
+        $image.setAttribute('src', self.latest_tweets[i].picture);
+
+        $name = document.createElement('h2');
+        $name.classList.add('popup-name');
+        $name.innerText = self.latest_tweets[i].name;
+
+        $text = document.createElement('p');
+        $text.classList.add('popup-text');
+        $text.innerText = self.latest_tweets[i].tweet_text;
+
+        // $popup.appendChild($image);
+        // $popup.appendChild($name);
+
+        $popup_header.appendChild($image);
+        $popup_header.appendChild($name);
+        $popup.appendChild($popup_header);
+        $popup.appendChild($text);
+
+        marker.appendChild($popup);
+
+        // Set hover listener
+        marker.addEventListener('mouseover', function() {
+
+            this.lastChild.style.opacity = 1;
+            this.lastChild.style.transform = 'scale(1)';
+        })
+
+        marker.addEventListener('mouseleave', function() {
+
+            this.lastChild.style.opacity = 0;
+            this.lastChild.style.transform = 'scale(0)';
+        })
     }
 
 
@@ -335,10 +381,8 @@ function App(element) {
      * Update speed of ISS
      */
     this.update_altitude = function(alti) {
-        console.log(alti);
         alti = alti.toString();
         alti = alti.substring(0, 6);
-
 
         this.$el.altitude.innerText = '';
         this.$el.altitude.innerText = alti + ' kilometers';
@@ -373,9 +417,7 @@ function App(element) {
 
 var earth = new App(document.querySelector('.app'));
 
-document.addEventListener('DOMContentLoaded', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
 
     earth.init();
-    earth.initialize();
-    event.preventDefault(event);
 })

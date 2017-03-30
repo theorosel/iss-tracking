@@ -62,7 +62,7 @@
     }
 
     // Database query
-    $prepare = $db->prepare('SELECT * FROM tweets ORDER BY tweet_date DESC LIMIT 2'); //SELECT * FROM tweets ORDER BY tweet_date DESC LIMIT 6
+    $prepare = $db->prepare('SELECT * FROM tweets ORDER BY tweet_date DESC LIMIT 5'); //SELECT * FROM tweets ORDER BY tweet_date DESC LIMIT 6
     $prepare->execute();
     $tweets_database = $prepare->fetchAll();
     // echo "<pre>"; print_r($tweets_database); echo "</pre>";

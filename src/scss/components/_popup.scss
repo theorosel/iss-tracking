@@ -3,11 +3,9 @@
     bottom: 160%;
     left: 160%;
     width: 280px;
-    height: 200px;
     padding: 25px;
-    background-color: rgba(0,0,0, 0.8);
-    border: solid 1px $white;
-    box-shadow: $marker_shadow;
+    background-color: rgba(0,0,0, 0.3);
+    box-shadow: $popup_shadow;
     color: $white;
     opacity: 0;
     transform: scale(0);
@@ -16,9 +14,13 @@
     z-index: $zindex-4;
 }
 
+.popup-header {
+}
+
 .popup-image {
     width: 40px;
     height: 40px;
+    box-shadow: $popup_shadow;
 
     img {
         width: 100%;
@@ -26,8 +28,17 @@
     }
 }
 
+.popup-name {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 700;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
 .popup-text {
     width: 100%;
     font-size: 12px;
     line-height: 19px;
+    margin-top: 10px;
 }
