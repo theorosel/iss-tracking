@@ -17,3 +17,4 @@
     </head>
     <body>
         <div class="app">
+            <div class="iss-loader"></div>

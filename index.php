@@ -5,9 +5,6 @@
     // Include config
     include('config.php');
 
-    // Include functions
-    include('includes/functions.php');
-
     // Get url and and explode it with '/' separator
     $url = isset($_GET['url']) ? trim($_GET['url']) : '' ;
     $url = explode('/', $url);
@@ -45,6 +42,8 @@
                 break;
 
             default:
+                $page = '404';
+                $title_page = '404';
                 break;
         }
 

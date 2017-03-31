@@ -540,6 +540,12 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 
-// For later
-// window.onbeforeunload = function() {
-// }
+
+var loader = document.querySelector('.iss-loader');
+
+window.onbeforeunload = function() {
+    loader.style.display = 'block';
+    setTimeout( function() {
+        loader.classList.add('active');
+    }, 50);
+}

@@ -55,25 +55,28 @@
 
     <!-- $carousel controls -->
     <div class="buttons">
-      <a href="#" class="button-up">
-          <svg viewBox="0 0 459 459" xml:space="preserve">
-              <path d="M229.5,71.4l81.6,81.6l35.7-35.7L229.5,0L112.2,117.3l35.7,35.7L229.5,71.4z"/>
-          </svg>
-      </a>
+        <!-- $carousel up -->
+        <a href="#" class="button-up">
+            <svg viewBox="0 0 459 459" xml:space="preserve">
+                <path d="M229.5,71.4l81.6,81.6l35.7-35.7L229.5,0L112.2,117.3l35.7,35.7L229.5,71.4z"/>
+            </svg>
+        </a>
 
+      <!-- $carousel count -->
       <div class="count">
         <p class="count_live">1</p>
         <p>/6</p>
       </div>
 
-      <a href="#" class="button-down">
-          <svg viewBox="0 0 459 459"  xml:space="preserve">
-              <path d="M229.5,71.4l81.6,81.6l35.7-35.7L229.5,0L112.2,117.3l35.7,35.7L229.5,71.4z"/>
-          </svg>
-      </a>
+      <!-- $carousel up -->
+        <a href="#" class="button-down">
+            <svg viewBox="0 0 459 459"  xml:space="preserve">
+                <path d="M229.5,71.4l81.6,81.6l35.7-35.7L229.5,0L112.2,117.3l35.7,35.7L229.5,71.4z"/>
+            </svg>
+        </a>
     </div>
 
-
+    <!-- $team link -->
     <a href="#" class="link link-team">
         <span class="link-text">TEAM</span>
         <span class="link-tick"></span>
