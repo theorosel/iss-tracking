@@ -38,7 +38,7 @@
 
             case 'home':
                 $page = 'home';
-                $title_page = 'home';
+                $title_page = 'ISS - home';
                 break;
 
             default:

@@ -16,14 +16,14 @@ function App(element) {
     this.$el.feed_link       = this.$el.container.querySelector('.link-feed');
     this.$el.team_link       = this.$el.container.querySelector('.link-team');
     this.$el.ticks           = this.$el.container.querySelectorAll('.link-tick');
+    this.$el.text_link       = this.$el.container.querySelectorAll('.link-text');
     this.$el.earth           = this.$el.container.querySelector('#earth');
+    this.earth_zoom          = 2.5;
 
-    this.earth_zoom     = 2.5;
-    console.log(this.$el.ticks);
     var self = this;
     var tl   = new TimelineLite();
 
-    // Earth data
+    // Earth options
     this.options = {
         atmosphere: false,
         center: [0, 0],
@@ -57,7 +57,6 @@ function App(element) {
     }
 
 
-
     // Toggle feed & team layers
     this.$el.feed_link.addEventListener('click', function(event) {
         self.toggle_feed();
@@ -80,9 +79,9 @@ function App(element) {
     });
 
 
-    setInterval(function(){
-        self.update_iss_data();
-    }, 5000);
+    // setInterval(function(){
+    //     self.update_iss_data();
+    // }, 5000);
 
     setInterval(function(){
         this.update_latest_tweets().then(function(response) {
@@ -102,7 +101,7 @@ function App(element) {
      */
     this.init = function() {
         this.initialize_earth();
-        // this.get_iss_data();
+        this.get_iss_data();
 
         this.get_latest_tweets().then(function(response) {
 
@@ -128,6 +127,12 @@ function App(element) {
             ease: Circ.easeOut
         }, '#debut');
 
+        tl.staggerTo(this.$el.text_link, 0.3, {
+            opacity: 1,
+            x: 100,
+            ease: Circ.easeOut
+        } , "#debut += 0.18");
+
         tl.to(this.$el.city_parent, 1.1, {
             x: 0,
             opacity: 1,
@@ -150,7 +155,7 @@ function App(element) {
             scale: 1,
             opacity: 1,
             ease: CustomEase.create("custom", "M0,0,C1,0,0,1,1,1"),
-            // onComplete: self.get_iss_data()
+            onComplete: self.get_iss_data()
         }, '#debut += 0.28')
 
 
@@ -452,6 +457,11 @@ function App(element) {
         $text.classList.add('feed-text');
         $text.innerText = self.latest_tweets[i].tweet_text;
 
+        $date = document.createElement('p');
+        $date.classList.add('tweet-date');
+        $date.innerText = self.latest_tweets[i].tweet_date;
+
+
         // Construct feed
         $feed.appendChild($image);
         $name.appendChild($pseudo);
@@ -466,7 +476,6 @@ function App(element) {
         $feed.addEventListener('click', function(ev) {
 
             $popup = self.latest_tweets[i].obj.parentElement.lastChild;
-            console.log(self.latest_tweets[i]);
 
             self.earth.panTo([
                 self.latest_tweets[i].lat,
@@ -478,11 +487,15 @@ function App(element) {
             event.preventDefault();
         });
 
+        // Remove class when user touch the map
         this.$el.earth_area.addEventListener('click', function(ev) {
             $popup = self.latest_tweets[i].obj.parentElement.lastChild;
 
             if ($popup.classList.contains('active')) {
                 $popup.classList.remove('active');
+            }
+            else {
+                return false;
             }
 
             event.preventDefault();
@@ -535,9 +548,6 @@ function App(element) {
         $text = document.createElement('p');
         $text.classList.add('popup-text');
         $text.innerText = self.excerpt(self.latest_tweets[i].tweet_text);
-
-        // $popup.appendChild($image);
-        // $popup.appendChild($name);
 
         // Construct popup
         $popup_header.appendChild($image);
@@ -641,12 +651,15 @@ function App(element) {
 
 var earth = new App(document.querySelector('.app'));
 
+
+// Init
 document.addEventListener('DOMContentLoaded', function() {
 
     if (earth.init()) {
         earth.intro();
     }
 })
+
 
 var loader = document.querySelector('.iss-loader');
 

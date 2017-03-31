@@ -1,7 +1,7 @@
 var div = 360 / 6;
 var radius = 280;
 var parent = document.querySelector('.team-area');
-var offsetToParentCenter = parseInt(circle_div.offsetWidth / 2);  //assumes parent is square
+var offsetToParentCenter = parseInt(circle_div.offsetWidth / 2);
 var offsetToChildCenter = 70;
 var totalOffset = offsetToParentCenter - offsetToChildCenter;
 
@@ -34,7 +34,6 @@ function get_astronautes() {
 
                 var result = JSON.parse(req.response);
                 resolve(result);
-                console.log(result);
 
             }
             else {
@@ -144,7 +143,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
             [{ opacity: 0 },{ opacity: 0 },{ opacity: 1 }], {easing: "ease",duration: 750,iterations: 1}
             );
             for (var i = 0; i < circle.length; i++){
-              console.log(circle.length);
             circle[i].animate(
               [{ transform: 'rotate(0deg)' },{ transform: 'rotate(-60deg)' }], {easing: "ease",duration: 750,iterations: 1}
             );
@@ -568,7 +566,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
             if (!state) { state = !state;
               if (lethargy.check(e) == 1) {  // Scroll Up
                 count -= 1;
-                console.log(count);
                 if (count == 2){ animateButtonUp6();}
                 else if (count == 3){animateButtonUp5();}
                 else if (count == 4){animateButtonUp4();}
@@ -579,7 +576,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
               }
               else if (lethargy.check(e) == -1) {  // Scroll Down
                 count += 1;
-                console.log(count);
                 if (count == 2){animateButtonDown6();}
                 else if (count == 3){animateButtonDown1();}
                 else if (count == 4){animateButtonDown2();}
@@ -602,7 +598,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
           switch(e.keyCode) {
             case 38: // up key pressed
               count -= 1;
-              console.log(count);
               if (count == 2){ animateButtonUp6();}
               else if (count == 3){animateButtonUp5();}
               else if (count == 4){animateButtonUp4();}
@@ -613,7 +608,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
             break;
             case 40: // down key pressed
               count += 1;
-              console.log(count);
               if (count == 2){animateButtonDown6();}
               else if (count == 3){animateButtonDown1();}
               else if (count == 4){animateButtonDown2();}
@@ -631,7 +625,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
         var button_up = document.querySelector('.button-up'); // Button up
             button_up.addEventListener('click', function() {
               count -= 1;
-              console.log(count);
               if (count == 2){ animateButtonUp6();}
               else if (count == 3){animateButtonUp5();}
               else if (count == 4){animateButtonUp4();}
@@ -644,7 +637,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
         var button_down = document.querySelector('.button-down'); // Button down
             button_down.addEventListener('click', function() {
               count += 1;
-              console.log(count);
               if (count == 2){animateButtonDown6();}
               else if (count == 3){animateButtonDown1();}
               else if (count == 4){animateButtonDown2();}

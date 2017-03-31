@@ -2,11 +2,12 @@ body,
 html {
     height: 100%;
     width: 100%;
-    background: #000000 /*url('../img/404_background.jpg')*/;
+    background: #000000;
 }
 
 body {
-    font-family: 'Open sans', Arial, sans-serif;
+    font-family: 'Rajdhani', Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     overflow: hidden;
 }
 
@@ -21,15 +22,10 @@ body {
     transition: $ease-cubic;
 }
 
-
 a {
     text-decoration: none;
 }
 
-
-/*
- * feed & team mode app
- */
 
 .app.feed-mode {
 

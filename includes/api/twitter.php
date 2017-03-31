@@ -64,7 +64,11 @@
     // Database query
     $prepare = $db->prepare('SELECT * FROM tweets ORDER BY tweet_date DESC LIMIT 10'); //SELECT * FROM tweets ORDER BY tweet_date DESC LIMIT 6
     $prepare->execute();
-    $tweets_database = $prepare->fetchAll();
-    // echo "<pre>"; print_r($tweets_database); echo "</pre>";
+    $tweets_database = $prepare->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach($tweets_database as &$_tweet)
+    {
+        $_tweet['tweet_text'] = utf8_encode($_tweet['tweet_text']);
+    }
 
     echo json_encode($tweets_database);

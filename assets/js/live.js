@@ -1,4 +1,3 @@
-
 var mute       = document.querySelector(".muted");
 var fullScreen = document.querySelector(".fullscreen");
 
@@ -19,22 +18,21 @@ function onPlayerReady(event) {
 }
 
 
-mute.addEventListener("click", function(){
-   i++;
-   if ( (i % 2) == 0) {
-     player.mute();
-   } else {
-    player.unMute();
-   }
-});
+// mute.addEventListener("click", function(){
+//    i++;
+//    if ( (i % 2) == 0) {
+//      player.mute();
+//    } else {
+//     player.unMute();
+//    }
+// });
 
-/*Function for fullscreen*/
 
-fullScreen.addEventListener("click", function() {
-var player = document.querySelector('#playerid');
-
-   if (player.mozRequestFullScreen) {
-      player.mozRequestFullScreen();
-   } else if (player.webkitRequestFullScreen) {
-      player.webkitRequestFullScreen();};
-});
+// fullScreen.addEventListener("click", function() {
+// var player = document.querySelector('#playerid');
+//
+//    if (player.mozRequestFullScreen) {
+//       player.mozRequestFullScreen();
+//    } else if (player.webkitRequestFullScreen) {
+//       player.webkitRequestFullScreen();};
+// });

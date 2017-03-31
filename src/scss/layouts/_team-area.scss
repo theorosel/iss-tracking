@@ -56,51 +56,44 @@
 }
 
 .buttons div img{
-  width: 100%;
-  height: 100%;
-}
-
-.button_up{
-
-}
-
-.button_down{
+    width: 100%;
+    height: 100%;
 }
 
 .names{
-  width: 100vw;
-  height: 0vw;
+    width: 100vw;
+    height: 0vw;
 }
 
 .names div{
-  position: absolute;
-  left: 44vw;
-  top: 50vh;
-  color: #fff;
+    position: absolute;
+    left: 44vw;
+    top: 50vh;
+    color: #fff;
 }
 
 .thomas{
-  opacity: 1;
+    opacity: 1;
 }
 
 .andrei{
-  opacity: 0;
+    opacity: 0;
 }
 
 .robert{
-  opacity: 0;
+    opacity: 0;
 }
 
 .sergei{
-  opacity: 0;
+    opacity: 0;
 }
 
 .peggy{
-  opacity: 0;
+    opacity: 0;
 }
 
 .oleg{
-  opacity: 0;
+    opacity: 0;
 }
 
 .circle_container{
@@ -111,60 +104,52 @@
 }
 
 #circle_background{
-  width: 550px;
-  height: 550px;
-  transform: rotate(0deg);
-  transform-origin: center center;
-  // border: 1px dashed $white;
-  box-shadow: $popup_shadow;
-  border-radius: 300px;
+    width: 550px;
+    height: 550px;
+    transform: rotate(0deg);
+    transform-origin: center center;
+    box-shadow: $popup_shadow;
+    border-radius: 300px;
 }
 
 #circle_div {
-  width: 556px;
-  height: 556px;
+    width: 556px;
+    height: 556px;
 }
 
-.circle0
-{
-  width: 120px;
-  height: 120px;
+.circle0 {
+    width: 120px;
+    height: 120px;
 }
 
-.circle1
-{
-  width: 120px;
-  height: 120px;
+.circle1 {
+    width: 120px;
+    height: 120px;
 }
 
-.circle2
-{
-  width: 120px;
-  height: 120px;
+.circle2 {
+    width: 120px;
+    height: 120px;
 }
 
-.circle3
-{
-  width: 160px;
-  height: 160px;
+.circle3 {
+    width: 160px;
+    height: 160px;
 }
 
-.circle4
-{
-  width: 120px;
-  height: 120px;
+.circle4 {
+    width: 120px;
+    height: 120px;
 }
 
-.circle5
-{
-  width: 120px;
-  height: 120px;
+.circle5 {
+    width: 120px;
+    height: 120px;
 }
 
-.circle6
-{
-  width: 120px;
-  height: 120px;
+.circle6 {
+    width: 120px;
+    height: 120px;
 }
 
 .div_circle {

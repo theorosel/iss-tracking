@@ -5,7 +5,6 @@
     top: 0;
     bottom: 0;
     overflow: hidden;
-    font-family: 'Open sans', arial, sans-serif;
     transform: translateX(0);
     will-change: transform;
     transition: $ease-cubic;
@@ -43,8 +42,9 @@
 .city,
 .speed,
 .altitude {
-    font-size: 20px;
-    font-weight: 600;
+    font-family: 'Rajdhani', Arial, sans-serif;
+    font-size: 1.250em;
+    font-weight: 700;
     margin-top: 14px;
     margin-bottom: 12px;
 }

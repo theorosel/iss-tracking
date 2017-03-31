@@ -25,12 +25,12 @@
         <span>Above your head</span>
     </div>
 
+    <!-- $live -->
     <div class="live">
         <iframe id="playerid" width="100%" height="100%" src="http://www.youtube.com/embed/ddFvjfvPnqk?vq=hd720&autoplay=1&fs=0&iv_load_policy=3&showinfo=0&theme=light&color=white&disablekb=1&enablejsapi=1" frameborder="0" onclick></iframe>
-        <!-- <button class="fullscreen">Fullscreen</button>
-        <button class="muted">Muted</button> -->
     </div>
 
+    <!-- $iss button -->
     <a href="#" class="find-iss">
         <div class="button">
             <div class="button_background1"></div>
@@ -44,7 +44,7 @@
 
 <!-- $team area -->
 <section class="team-area">
-    <h3 class="team-area-title">MISSION 50</h3>
+    <h3 class="team-area-title">EXPEDITION 50</h3>
 
     <!-- $carousel -->
     <div class="circle_container">

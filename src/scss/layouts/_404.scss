@@ -15,8 +15,8 @@
 }
 
 .notfound-title {
-    font-size: 200px;
-    font-family: 'Lato';
+    font-family: 'Rajdhani', Arial, sans-serif;
+    font-size: 12.500em;
     font-weight: 700;
     opacity: 0.9;
     margin-top: -50px;
@@ -24,7 +24,6 @@
 
 .notfound-subtitle {
     font-size: 28px;
-    font-family: 'open sans';
     font-weight: 400;
     margin-top: 20px;
 }
@@ -40,6 +39,7 @@
     display: inline-block;
     transform: translateX(-110px);
     margin-top: 80px;
+    font-family: 'Rajdhani', Arial, sans-serif;
     cursor: pointer;
     display: none;
 
