@@ -1,20 +1,27 @@
 function App(element) {
 
     // DOM elements
-    this.$el            = {};
-    this.$el.container  = element;
-    this.$el.feeds      = this.$el.container.querySelector('.feed-area-container');
-    this.$el.earth_area = this.$el.container.querySelector('.earth-area');
-    this.$el.altitude   = this.$el.container.querySelector('.altitude');
-    this.$el.speed      = this.$el.container.querySelector('.speed');
-    this.$el.city_over  = this.$el.container.querySelector('.city');
-    this.$el.iss_btn    = this.$el.container.querySelector('.find-iss');
-    this.$el.feed_link  = this.$el.container.querySelector('.link-feed');
-    this.$el.team_link  = this.$el.container.querySelector('.link-team');
-    this.$el.earth      = this.$el.container.querySelector('#earth');
+    this.$el                 = {};
+    this.$el.container       = element;
+    this.$el.feeds           = this.$el.container.querySelector('.feed-area-container');
+    this.$el.earth_area      = this.$el.container.querySelector('.earth-area');
+    this.$el.altitude_parent = this.$el.container.querySelector('.iss-altitude');
+    this.$el.altitude        = this.$el.container.querySelector('.altitude');
+    this.$el.speed_parent    = this.$el.container.querySelector('.iss-speed');
+    this.$el.speed           = this.$el.container.querySelector('.speed');
+    this.$el.city_over       = this.$el.container.querySelector('.city');
+    this.$el.city_parent     = this.$el.container.querySelector('.iss-overflown');
+    this.$el.live            = this.$el.container.querySelector('.live');
+    this.$el.iss_btn         = this.$el.container.querySelector('.find-iss');
+    this.$el.feed_link       = this.$el.container.querySelector('.link-feed');
+    this.$el.team_link       = this.$el.container.querySelector('.link-team');
+    this.$el.ticks           = this.$el.container.querySelectorAll('.link-tick');
+    this.$el.earth           = this.$el.container.querySelector('#earth');
 
     this.earth_zoom     = 2.5;
+    console.log(this.$el.ticks);
     var self = this;
+    var tl   = new TimelineLite();
 
     // Earth data
     this.options = {
@@ -60,6 +67,13 @@ function App(element) {
         self.toggle_team();
     });
 
+    this.$el.earth_area.addEventListener('click', function(event) {
+
+        if (self.$el.feed_link.contains('active')) {
+
+        }
+    });
+
     // cropping the map on the ISS
     this.$el.iss_btn.addEventListener('click', function(event) {
         self.get_iss_data();
@@ -71,7 +85,7 @@ function App(element) {
     }, 5000);
 
     setInterval(function(){
-        this.get_latest_tweets().then(function(response) {
+        this.update_latest_tweets().then(function(response) {
 
             for (var i = 0; i < self.latest_tweets.length - 1; i++) {
 
@@ -81,9 +95,15 @@ function App(element) {
     }, 900000);
 
 
+    /*
+     * initialize_earth()
+     * Called when the DOM is fully loaded
+     * Get X latest tweets with promise request to our local API : /api/twitter
+     */
     this.init = function() {
         this.initialize_earth();
-        this.get_iss_data();
+        // this.get_iss_data();
+
         this.get_latest_tweets().then(function(response) {
 
             for (var i = 0; i < self.latest_tweets.length - 1; i++) {
@@ -91,6 +111,58 @@ function App(element) {
                 self.get_tweet_pos(self.latest_tweets[i].tweet_date, i);
             }
         });
+
+        return true;
+    }
+
+
+    /*
+     * intro()
+     * Called when the DOM is fully loaded
+     * Give some fire to our users rapidly
+     */
+    this.intro = function() {
+
+        tl.staggerTo(this.$el.ticks, 0.2, {
+            width: '100%',
+            ease: Circ.easeOut
+        }, '#debut');
+
+        tl.to(this.$el.city_parent, 1.1, {
+            x: 0,
+            opacity: 1,
+            ease: Circ.easeOut
+        }, "#debut += 0.18")
+
+        tl.to(this.$el.speed_parent, 1.1, {
+            x: 0,
+            opacity: 1,
+            ease: Circ.easeOut
+        },'#debut += 0.18')
+
+        tl.to(this.$el.altitude_parent, 1.1, {
+            x: 0,
+            opacity: 1,
+            ease: CustomEase.create("custom", "M0,0,C1,0,0,1,1,1")
+        }, '#debut += 0.28')
+
+        tl.to(this.$el.live, 1.1, {
+            scale: 1,
+            opacity: 1,
+            ease: CustomEase.create("custom", "M0,0,C1,0,0,1,1,1"),
+            // onComplete: self.get_iss_data()
+        }, '#debut += 0.28')
+
+
+        tl.to(this.$el.iss_btn, 0.7, {
+            display: 'block'
+        })
+
+        tl.to(this.$el.earth, 1, {
+            scale: 1,
+            opacity: 1,
+            ease: CustomEase.create("custom", "M0,0,C1,0,0,1,1,1")
+        })
     }
 
 
@@ -100,6 +172,41 @@ function App(element) {
      * Get X latest tweets with promise request to our local API : /api/twitter
      */
     this.get_latest_tweets = function() {
+        return new Promise(function(resolve, reject) {
+            var req = new XMLHttpRequest();
+
+            req.open('GET', '/api/twitter');
+
+            req.onload = function() {
+                if (req.status == 200) {
+                    resolve(req.response);
+
+                    var results = JSON.parse(req.response);
+
+                    for (var i = 0; i < results.length; i++) {
+                        self.latest_tweets.push(results[i]);
+                    }
+                }
+                else {
+                    reject(Error(req.statusText));
+                }
+            };
+
+            req.onerror = function() {
+                reject(Error("Network Error"));
+            };
+
+            req.send();
+        });
+    }
+
+
+    /*
+     * update_latest_tweets()
+     * Called every 15 minutes
+     * Get X latest tweets with promise request to our local API : /api/twitter
+     */
+    this.update_latest_tweets = function() {
         return new Promise(function(resolve, reject) {
             var req = new XMLHttpRequest();
 
@@ -536,14 +643,15 @@ var earth = new App(document.querySelector('.app'));
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    earth.init();
+    if (earth.init()) {
+        earth.intro();
+    }
 })
-
-
 
 var loader = document.querySelector('.iss-loader');
 
 window.onbeforeunload = function() {
+
     loader.style.display = 'block';
     setTimeout( function() {
         loader.classList.add('active');

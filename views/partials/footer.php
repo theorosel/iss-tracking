@@ -2,7 +2,8 @@
 
         <!-- JS import -->
         <script src="<?= URL ?>assets/js/TweenMax.min.js"></script>
-
+        <script src="<?= URL ?>assets/js/CustomEase.min.js"></script>
+        
         <!-- $landing ase  -->
         <?php if ($page == 'landing'): ?>
             <script src="<?= URL ?>assets/js/landing.js"></script>

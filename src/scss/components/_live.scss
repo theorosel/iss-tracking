@@ -7,6 +7,9 @@
     color: $white;
     transition: $ease-cubic;
     transform-origin: bottom left;
+    transform: scale(0.1);
+    opacity: 0;
+    will-change: transform;
 }
 
 // .muted {

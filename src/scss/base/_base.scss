@@ -2,7 +2,7 @@ body,
 html {
     height: 100%;
     width: 100%;
-    background: #000000 url('../img/404_background.jpg');
+    background: #000000 /*url('../img/404_background.jpg')*/;
 }
 
 body {
@@ -34,7 +34,7 @@ a {
 .app.feed-mode {
 
     .feed-area {
-        transform: translateX(0%);
+        transform: translateX(0%) !important;
         transition: $ease-cubic;
 
         @for $i from 1 to 100 {
@@ -49,26 +49,26 @@ a {
     }
 
     .earth-area {
-        transform: translateX(18%);
+        transform: translateX(18%) !important;
         transition: $ease-cubic;
 
         .iss-overflown {
-            transform: translateX(80%);
+            transform: translateX(80%) !important;
             transition: $ease-cubic;
         }
 
         .iss-speed {
-            transform: translateX(-170%);
+            transform: translateX(-170%) !important;
             transition: $ease-cubic;
         }
 
         .iss-altitude {
-            transform: translateX(-200%);
+            transform: translateX(-200%) !important;
             transition: $ease-cubic;
         }
 
         .live {
-            transform: translateX(80%) scale(0.6);
+            transform: translateX(80%) scale(0.6) !important;
             transition: $ease-cubic;
         }
     }
@@ -78,37 +78,37 @@ a {
 .app.team-mode {
 
     .team-area {
-        transform: translateX(0%);
+        transform: translateX(0%) !important;
         transition: $ease-cubic;
     }
 
     .earth-area {
-        transform: translateX(-25%);
+        transform: translateX(-25%) !important;
         transition: $ease-cubic;
 
         .iss-overflown {
-            transform: translateX(130%);
+            transform: translateX(130%) !important;
             transition: $ease-cubic;
         }
 
         .iss-speed {
-            transform: translateX(-160%);
+            transform: translateX(-160%) !important;
             transition: $ease-cubic;
         }
 
         .iss-altitude {
-            transform: translateX(-195%);
+            transform: translateX(-195%) !important;
             transition: $ease-cubic;
         }
 
         .live {
-            transform: translateX(130%) scale(0.6);
+            transform: translateX(130%) scale(0.6) !important;
             transition: $ease-cubic;
         }
     }
 
     .feed-area {
-        transform: translateX(-110%);
+        transform: translateX(-110%) !important;
         transition: $ease-cubic;
     }
 }
