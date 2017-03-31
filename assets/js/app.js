@@ -79,9 +79,10 @@ function App(element) {
     });
 
 
-    // setInterval(function(){
-    //     self.update_iss_data();
-    // }, 5000);
+    setInterval(function(){
+        self.update_iss_data();
+    }, 5000);
+
 
     setInterval(function(){
         this.update_latest_tweets().then(function(response) {
