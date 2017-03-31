@@ -5,7 +5,6 @@ ISS tracking
 
 
 ### Features
-
 - Speed, city overflown and altitude
 - See where the station is on the map and his path
 - See all the tweets of ISS team on the map according to ISS position at the time of each
